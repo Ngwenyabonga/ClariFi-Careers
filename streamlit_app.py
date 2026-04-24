@@ -1,10 +1,14 @@
 import streamlit as st
+import openai
 import os
-from openai import OpenAI
 
-# Initialize OpenAI client (make sure you set OPENAI_API_KEY in Streamlit secrets)
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+# Set up OpenAI API key (must be added in Streamlit Cloud → Settings → Secrets)
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
+# Create top tab navigation
+tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
+
+# --- CV REVIEW TAB ---
 with tab1:
     st.header("Get Your CV Reviewed")
     st.write("Upload or paste your CV and get honest, specific feedback — like having a senior hiring manager read your CV over coffee.")
@@ -14,7 +18,7 @@ with tab1:
 
     if st.button("Review My CV"):
         if cv_text:
-            # Build the recruiter-style prompt
+            # Build recruiter-style prompt
             prompt = f"""
 You are a senior recruitment consultant and career branding expert with 15+ years of experience screening CVs.
 
@@ -45,13 +49,13 @@ I'll be very direct, speaking as someone who's reviewed [their most recent job t
 In short: your experience may be strong, but the presentation is actively working against you and will get this CV rejected before it’s read."
 """
 
-            # Call the AI model
-            response = client.chat.completions.create(
+            # Call the OpenAI model
+            response = openai.ChatCompletion.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}]
             )
 
-            feedback = response.choices[0].message.content
+            feedback = response["choices"][0]["message"]["content"]
             st.markdown(feedback)
         else:
             st.warning("⚠️ Please paste your CV text first.")
@@ -59,7 +63,7 @@ In short: your experience may be strong, but the presentation is actively workin
 # --- AI COACH TAB ---
 with tab2:
     st.header("AI Coach")
-    st.write("This will be your interactive career coach. (We’ll add chat features here next.)")
+    st.write("This will be your interactive career coach. (Chat features coming soon.)")
 
 # --- LEARNING HUB TAB ---
 with tab3:
