@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 import os
 
-# Set up OpenAI API key (must be added in Streamlit Cloud → Settings → Secrets)
+# Set up OpenAI API key from Streamlit secrets
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Create top tab navigation
@@ -11,10 +11,17 @@ tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun 
 # --- CV REVIEW TAB ---
 with tab1:
     st.header("Get Your CV Reviewed")
-    st.write("Upload or paste your CV and get honest, specific feedback — like having a senior hiring manager read your CV over coffee.")
+    st.write("Upload OR paste your CV and get honest, specific feedback — like having a senior hiring manager read your CV over coffee.")
 
+    # Upload option
     uploaded_file = st.file_uploader("Upload CV File", type=["pdf", "docx"])
+
+    # Paste option
     cv_text = st.text_area("Paste CV Text")
+
+    # Decide which input to use
+    if uploaded_file is not None:
+        cv_text = uploaded_file.read().decode("utf-8", errors="ignore")
 
     if st.button("Review My CV"):
         if cv_text:
@@ -50,15 +57,15 @@ In short: your experience may be strong, but the presentation is actively workin
 """
 
             # Call the OpenAI model
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}]
             )
 
-            feedback = response["choices"][0]["message"]["content"]
+            feedback = response.choices[0].message.content
             st.markdown(feedback)
         else:
-            st.warning("⚠️ Please paste your CV text first.")
+            st.warning("⚠️ Please upload or paste your CV first.")
 
 # --- AI COACH TAB ---
 with tab2:
