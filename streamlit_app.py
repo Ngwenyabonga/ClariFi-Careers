@@ -1,11 +1,4 @@
 import streamlit as st
-
-# Create top tab navigation
-tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
-
-# --- CV REVIEW TAB ---
-with tab1:
-    import streamlit as st
 import os
 from openai import OpenAI
 
