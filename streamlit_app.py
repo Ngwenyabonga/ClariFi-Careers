@@ -180,25 +180,27 @@ with tab3:
 
 # --- FUN CORNER TAB ---
 with tab4:
-    st.header("Fun Corner")
-    st.write("Relax with light content, quizzes, and interactive games.")
+    st.header("The Funny Corner 😂")
+    st.write("Job searching is stressful. Take a break, have a laugh, and remember — you're not alone in this.")
 
-    # Dummy fun content for testing
-    st.subheader("Quick Quiz")
-    st.write("What color is JoyTee’s brand palette?")
-    st.radio("Choose one:", ["Blue & Silver", "Deep Navy & Gold", "Red & Black"])
+    # Daily Meme placeholder
+    st.subheader("Daily Meme")
+    st.write("📸 [Placeholder for Daily Meme image or joke]")
 
-    st.subheader("Career Trivia")
-    st.write("Did you know? Most recruiters spend less than 7 seconds scanning a CV.")
+    # Office Bingo placeholder
+    st.subheader("Office Bingo")
+    st.write("🎲 [Placeholder for interactive Office Bingo game]")
+
+    # Career Horoscope placeholder
+    st.subheader("Career Horoscope")
+    st.write("🔮 [Placeholder for daily career horoscope text]")
+
+    # Footer note inside Funny Corner
+    st.markdown("""
+    <div style="text-align:center; margin-top:20px; font-size:12px; color:#0D1B2A;">
+        Made with ❤️ and a bit of eish energy. Powered by JoyTee Holdings.
+    </div>
+    """, unsafe_allow_html=True)
 
     if st.button("↺ Reset Fun Corner"):
         st.experimental_rerun()
-
-# --- Footer with WhatsApp icon ---
-st.markdown("""
-<div class="footer">
-    Powered by JoyTee Holdings<br>
-    © 2025 JoyTee Holdings | ClariFi Career Corner | POPIA Compliant | info@joyteeholdings.co.za<br>
-    <a href="https://wa.me/27600000000" target="_blank">💬 Chat with us on WhatsApp</a>
-</div>
-""", unsafe_allow_html=True)
