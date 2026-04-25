@@ -163,17 +163,41 @@ with tab2:
 # --- LEARNING HUB TAB ---
 with tab3:
     st.header("Learning Hub")
-    st.write("Guides, templates, and resources to build financial credibility and career clarity.")
+    st.write("Free resources to sharpen your career game — from CV writing to salary negotiation.")
+
+    # Search bar placeholder
+    search_query = st.text_input("🔍 Search resources...", "")
+
+    # Categories placeholder
+    categories = ["All", "CV Writing", "Cover Letters", "Salary Negotiation", "Digital Finance", "Compliance"]
+    active_category = st.radio("Filter by category:", categories, horizontal=True)
 
     # Dummy resources for testing
-    st.subheader("Sample Resources")
-    st.markdown("""
-    - CV Template (ATS-friendly)
-    - Cover Letter Guide
-    - Salary Negotiation Tips
-    - Digital Finance Basics
-    - Compliance Checklist for SMEs
-    """)
+    resources = [
+        {"title": "CV Template (ATS-friendly)", "description": "A modern CV template optimized for ATS systems.", "category": "CV Writing"},
+        {"title": "Cover Letter Guide", "description": "Step-by-step guide to writing impactful cover letters.", "category": "Cover Letters"},
+        {"title": "Salary Negotiation Tips", "description": "Learn how to negotiate your salary with confidence.", "category": "Salary Negotiation"},
+        {"title": "Digital Finance Basics", "description": "Understand the fundamentals of digital finance.", "category": "Digital Finance"},
+        {"title": "Compliance Checklist for SMEs", "description": "Ensure your small business meets compliance standards.", "category": "Compliance"},
+    ]
+
+    # Filter logic
+    filtered_resources = []
+    for r in resources:
+        matches_category = active_category == "All" or r["category"] == active_category
+        matches_search = not search_query or search_query.lower() in r["title"].lower() or search_query.lower() in r["description"].lower()
+        if matches_category and matches_search:
+            filtered_resources.append(r)
+
+    # Display resources
+    if filtered_resources:
+        for res in filtered_resources:
+            st.subheader(res["title"])
+            st.write(res["description"])
+            if st.button(f"View {res['title']}"):
+                st.info(f"[Placeholder] Viewing resource: {res['title']}")
+    else:
+        st.write("🔍 No resources found. Try a different search or category.")
 
     if st.button("↺ Reset Learning Hub"):
         st.experimental_rerun()
