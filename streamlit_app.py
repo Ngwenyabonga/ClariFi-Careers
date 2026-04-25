@@ -165,20 +165,43 @@ with tab3:
     st.header("Learning Hub")
     st.write("Free resources to sharpen your career game — from CV writing to salary negotiation.")
 
-    # Search bar placeholder
-    search_query = st.text_input("🔍 Search resources...", "")
+    # Search bar
+    search_query = st.text_input("Search resources...", "")
 
-    # Categories placeholder
-    categories = ["All", "CV Writing", "Cover Letters", "Salary Negotiation", "Digital Finance", "Compliance"]
+    # Categories
+    categories = ["All", "CV Writing", "LinkedIn", "Job Search Strategy", "Interview Prep", "Career Pivots", "Industry Insights"]
     active_category = st.radio("Filter by category:", categories, horizontal=True)
 
     # Dummy resources for testing
     resources = [
-        {"title": "CV Template (ATS-friendly)", "description": "A modern CV template optimized for ATS systems.", "category": "CV Writing"},
-        {"title": "Cover Letter Guide", "description": "Step-by-step guide to writing impactful cover letters.", "category": "Cover Letters"},
-        {"title": "Salary Negotiation Tips", "description": "Learn how to negotiate your salary with confidence.", "category": "Salary Negotiation"},
-        {"title": "Digital Finance Basics", "description": "Understand the fundamentals of digital finance.", "category": "Digital Finance"},
-        {"title": "Compliance Checklist for SMEs", "description": "Ensure your small business meets compliance standards.", "category": "Compliance"},
+        {"title": "Why Your CV Keeps Getting Ignored (And How to Fix It)",
+         "description": "The harsh truth about why most CVs get skipped — and the 5 structural changes that make recruiters stop scrolling.",
+         "read_time": "6 min read",
+         "category": "CV Writing"},
+        {"title": "The LinkedIn Profile Sections Most Professionals Neglect",
+         "description": "Your LinkedIn headline, About section, and Featured area are prime real estate. Here’s how to use them.",
+         "read_time": "7 min read",
+         "category": "LinkedIn"},
+        {"title": "How Recruiters Actually Screen CVs in Under 10 Seconds",
+         "description": "A peek behind the curtain at exactly what recruiters look at first — and what they skip entirely.",
+         "read_time": "5 min read",
+         "category": "Job Search Strategy"},
+        {"title": "Salary Negotiation: What to Say When They Ask ‘What Are You Expecting?’",
+         "description": "The dreaded salary question doesn’t have to be a trap. Here’s how to answer with confidence.",
+         "read_time": "8 min read",
+         "category": "Salary Negotiation"},
+        {"title": "Interview Preparation Framework: The STAR Method Explained",
+         "description": "The most effective way to answer competency-based interview questions — with South African examples.",
+         "read_time": "7 min read",
+         "category": "Interview Prep"},
+        {"title": "How to Pivot Industries Without Starting From Zero",
+         "description": "Changing careers doesn’t mean losing your experience. Here’s how to reframe your skills for a new industry.",
+         "read_time": "7 min read",
+         "category": "Career Pivots"},
+        {"title": "The Hidden Job Market: 70% of Jobs Are Never Advertised",
+         "description": "Most job openings are filled before they hit job boards. Here’s how to access the ones you never see.",
+         "read_time": "6 min read",
+         "category": "Industry Insights"},
     ]
 
     # Filter logic
@@ -194,7 +217,8 @@ with tab3:
         for res in filtered_resources:
             st.subheader(res["title"])
             st.write(res["description"])
-            if st.button(f"View {res['title']}"):
+            st.caption(f"⏱️ {res['read_time']}")
+            if st.button(f"Read: {res['title']}"):
                 st.info(f"[Placeholder] Viewing resource: {res['title']}")
     else:
         st.write("🔍 No resources found. Try a different search or category.")
