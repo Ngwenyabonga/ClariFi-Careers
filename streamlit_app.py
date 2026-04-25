@@ -191,10 +191,6 @@ with tab4:
     st.subheader("Office Bingo")
     st.write("🎲 [Placeholder for interactive Office Bingo game]")
 
-    # Career Horoscope placeholder
-    st.subheader("Career Horoscope")
-    st.write("🔮 [Placeholder for daily career horoscope text]")
-
     # Footer note inside Funny Corner
     st.markdown("""
     <div style="text-align:center; margin-top:20px; font-size:12px; color:#0D1B2A;">
