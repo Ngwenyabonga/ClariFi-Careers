@@ -1,4 +1,6 @@
-# Custom CSS for branding
+import streamlit as st
+
+# --- Custom CSS for branding ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans&display=swap');
@@ -27,11 +29,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-import streamlit as st
-
-# Toggle between Testing Mode and Live Mode
+# --- Toggle between Testing Mode and Live Mode ---
 TESTING_MODE = True   # Change to False when you want to use OpenAI again
 
+# --- Tab Navigation ---
 tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
 
 # --- CV REVIEW TAB ---
@@ -74,20 +75,7 @@ In short: your experience may be strong, but the presentation is actively workin
                 if st.button("↺ Review another CV"):
                     st.experimental_rerun()
             else:
-                # Live Mode: call OpenAI API (when billing is enabled)
-                prompt = f"... (same recruiter-style prompt as before) ..."
-                try:
-                    response = openai.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=[{"role": "user", "content": prompt}]
-                    )
-                    feedback = response.choices[0].message.content
-                    st.markdown(feedback)
-
-                    if st.button("↺ Review another CV"):
-                        st.experimental_rerun()
-                except Exception as e:
-                    st.error(f"⚠️ Error generating feedback: {e}")
+                st.error("⚠️ Live Mode is disabled until billing/API credits are available.")
         else:
             st.warning("⚠️ Please upload or paste your CV first.")
 
