@@ -1,13 +1,11 @@
 import streamlit as st
 import openai
 
-# Get API key from Streamlit secrets
+# Get API key from Streamlit Cloud secrets
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Top tab navigation
 tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
 
-# --- CV REVIEW TAB ---
 with tab1:
     st.header("Get Your CV Reviewed")
     st.write("Upload OR paste your CV and get honest, specific feedback.")
@@ -15,7 +13,6 @@ with tab1:
     uploaded_file = st.file_uploader("Upload CV File", type=["pdf", "docx"])
     cv_text = st.text_area("Paste CV Text")
 
-    # If user uploads, read file
     if uploaded_file is not None:
         try:
             cv_text = uploaded_file.read().decode("utf-8", errors="ignore")
@@ -32,11 +29,6 @@ Here is the candidate's CV:
 ---
 {cv_text}
 ---
-
-Your task:
-1. Extract the candidate's FULL NAME.
-2. Identify their most recent or highest-level job title.
-3. Analyse the CV thoroughly and identify 6–8 specific issues, referencing actual wording or gaps.
 
 Respond in this format:
 
@@ -65,16 +57,3 @@ In short: your experience may be strong, but the presentation is actively workin
                 st.error(f"⚠️ Error generating feedback: {e}")
         else:
             st.warning("⚠️ Please upload or paste your CV first.")
-
-# --- Other Tabs ---
-with tab2:
-    st.header("AI Coach")
-    st.write("Interactive career coach coming soon.")
-
-with tab3:
-    st.header("Learning Hub")
-    st.write("Guides and resources here.")
-
-with tab4:
-    st.header("Fun Corner")
-    st.write("Relax with light content.")
