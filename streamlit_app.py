@@ -8,6 +8,7 @@ st.markdown("""
     html, body, [class*="css"]  {
         font-family: 'DM Sans', sans-serif;
         color: #0D1B2A;
+        background-color: #F9F7F4;
     }
 
     h1, h2, h3, h4 {
@@ -57,6 +58,22 @@ st.markdown("""
         border-radius: 8px;
         font-weight: bold;
     }
+
+    /* Footer styling */
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #0D1B2A;
+    }
+    .footer a {
+        color: #4CAF82;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .footer a:hover {
+        color: #F4A922;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -69,10 +86,10 @@ tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun 
 # --- CV REVIEW TAB ---
 with tab1:
     st.header("Get Your CV Reviewed")
-    st.write("Upload OR paste your CV and get honest, specific feedback.")
+    st.write("Upload OR paste your CV and get honest, specific feedback — like having a senior hiring manager read your CV over coffee.")
 
     # Privacy note
-    st.info("🔒 Your CV content is used only to generate your review and is not stored on our servers.")
+    st.info("🔒 Your CV content is used only to generate your review and is not stored on our servers. See our Privacy Policy.")
 
     uploaded_file = st.file_uploader("Upload CV File", type=["pdf", "docx"])
     cv_text = st.text_area("Paste CV Text")
@@ -122,3 +139,12 @@ with tab3:
 with tab4:
     st.header("Fun Corner")
     st.write("Relax with light content.")
+
+# --- Footer with WhatsApp icon ---
+st.markdown("""
+<div class="footer">
+    Powered by JoyTee Holdings<br>
+    © 2025 JoyTee Holdings | ClariFi Career Corner | POPIA Compliant | info@joyteeholdings.co.za<br>
+    <a href="https://wa.me/27835290121" target="_blank">💬 Chat with us on WhatsApp</a>
+</div>
+""", unsafe_allow_html=True)
