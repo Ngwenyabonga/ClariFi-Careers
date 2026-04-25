@@ -15,6 +15,7 @@ st.markdown("""
         color: #F4A922;
     }
 
+    /* Button styling */
     .stButton>button {
         background-color: #4CAF82;
         color: #F9F7F4;
@@ -25,6 +26,36 @@ st.markdown("""
     .stButton>button:hover {
         background-color: #0D1B2A;
         color: #F4A922;
+    }
+
+    /* Tab styling */
+    div[data-baseweb="tab"] {
+        font-family: 'Playfair Display', serif;
+        font-size: 16px;
+        font-weight: 600;
+        background-color: #0D1B2A;   /* deep navy */
+        color: #F9F7F4;              /* off-white */
+        border-radius: 6px 6px 0 0;
+        margin-right: 4px;
+        padding: 8px 16px;
+    }
+
+    div[data-baseweb="tab"]:hover {
+        background-color: #4CAF82;   /* muted green */
+        color: #F9F7F4;
+    }
+
+    div[data-baseweb="tab"][aria-selected="true"] {
+        background-color: #F4A922;   /* warm gold */
+        color: #0D1B2A;              /* deep navy text */
+    }
+
+    /* Privacy note styling */
+    .stAlert {
+        background-color: #4CAF82 !important;  /* muted green */
+        color: #F4A922 !important;             /* warm gold text */
+        border-radius: 8px;
+        font-weight: bold;
     }
     </style>
 """, unsafe_allow_html=True)
