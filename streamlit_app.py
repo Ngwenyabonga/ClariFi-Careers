@@ -172,59 +172,99 @@ with tab3:
     categories = ["All", "CV Writing", "LinkedIn", "Job Search Strategy", "Interview Prep", "Career Pivots", "Industry Insights"]
     active_category = st.radio("Filter by category:", categories, horizontal=True)
 
-    # Dummy resources for testing
+    # Dummy resources with full article text for testing
     resources = [
-        {"title": "Why Your CV Keeps Getting Ignored (And How to Fix It)",
-         "description": "The harsh truth about why most CVs get skipped — and the 5 structural changes that make recruiters stop scrolling.",
-         "read_time": "6 min read",
-         "category": "CV Writing"},
-        {"title": "The LinkedIn Profile Sections Most Professionals Neglect",
-         "description": "Your LinkedIn headline, About section, and Featured area are prime real estate. Here’s how to use them.",
-         "read_time": "7 min read",
-         "category": "LinkedIn"},
-        {"title": "How Recruiters Actually Screen CVs in Under 10 Seconds",
-         "description": "A peek behind the curtain at exactly what recruiters look at first — and what they skip entirely.",
-         "read_time": "5 min read",
-         "category": "Job Search Strategy"},
-        {"title": "Salary Negotiation: What to Say When They Ask ‘What Are You Expecting?’",
-         "description": "The dreaded salary question doesn’t have to be a trap. Here’s how to answer with confidence.",
-         "read_time": "8 min read",
-         "category": "Salary Negotiation"},
-        {"title": "Interview Preparation Framework: The STAR Method Explained",
-         "description": "The most effective way to answer competency-based interview questions — with South African examples.",
-         "read_time": "7 min read",
-         "category": "Interview Prep"},
-        {"title": "How to Pivot Industries Without Starting From Zero",
-         "description": "Changing careers doesn’t mean losing your experience. Here’s how to reframe your skills for a new industry.",
-         "read_time": "7 min read",
-         "category": "Career Pivots"},
-        {"title": "The Hidden Job Market: 70% of Jobs Are Never Advertised",
-         "description": "Most job openings are filled before they hit job boards. Here’s how to access the ones you never see.",
-         "read_time": "6 min read",
-         "category": "Industry Insights"},
+        {
+            "title": "Why Your CV Keeps Getting Ignored (And How to Fix It)",
+            "description": "The harsh truth about why most CVs get skipped — and the 5 structural changes that make recruiters stop scrolling.",
+            "read_time": "6 min read",
+            "category": "CV Writing",
+            "content": """
+Let's start with a hard truth: most CVs look the same. And in a stack of 200+ applications, "the same" means invisible.
+
+### The Reality of CV Screening
+Recruiters in South Africa typically spend 6–10 seconds on an initial CV scan. That's not enough time to read your career history — it's enough time to feel whether your CV is worth reading.
+
+**Here's what gets your CV ignored:**
+
+1. **No Professional Summary (Or a Generic One)**  
+   "Dynamic professional seeking challenging opportunities..." — Stop. Every recruiter has read this sentence 10,000 times.  
+   Fix: Write a summary that includes your years of experience, your specialisation, one quantifiable achievement, and the value you bring.
+
+2. **Job Descriptions Instead of Achievements**  
+   If your CV reads like a job specification, it tells the recruiter what you were supposed to do — not what you actually delivered.  
+   Fix: For each role, include 3–5 bullet points that show impact. Use the formula: Action + Context + Result.
+
+3. **Poor Visual Hierarchy**  
+   Dense text blocks, inconsistent formatting, tiny fonts, or decorative templates that sacrifice readability.  
+   Fix: Use clear section headings, consistent fonts (DM Sans, Calibri, or Arial), plenty of white space, and a logical top-to-bottom flow.
+
+4. **Missing Keywords**  
+   Most large companies use Applicant Tracking Systems (ATS). If your CV doesn't contain the right keywords from the job specification, it may never reach human eyes.  
+   Fix: Mirror key phrases from the job ad naturally in your CV — especially in your summary, skills, and experience sections.
+
+5. **Too Long or Too Short**  
+   A 1-page CV for a senior professional looks light. A 6-page CV for anyone looks unfocused.  
+   Fix: The sweet spot for mid-to-senior professionals is 2–3 pages.
+
+### The Bottom Line
+Your CV isn't just a document — it's your first negotiation with a potential employer. If it doesn't sell you in 10 seconds, everything else is irrelevant.
+
+**Next step:** Run your CV through a fresh pair of eyes. Not your mom's eyes — a recruiter's eyes.
+            """
+        },
+        # Add other articles here later with same structure
     ]
 
-    # Filter logic
-    filtered_resources = []
-    for r in resources:
-        matches_category = active_category == "All" or r["category"] == active_category
-        matches_search = not search_query or search_query.lower() in r["title"].lower() or search_query.lower() in r["description"].lower()
-        if matches_category and matches_search:
-            filtered_resources.append(r)
+    # State to track selected article
+    if "selected_resource" not in st.session_state:
+        st.session_state.selected_resource = None
 
-    # Display resources
-    if filtered_resources:
-        for res in filtered_resources:
-            st.subheader(res["title"])
-            st.write(res["description"])
-            st.caption(f"⏱️ {res['read_time']}")
-            if st.button(f"Read: {res['title']}"):
-                st.info(f"[Placeholder] Viewing resource: {res['title']}")
+    # If an article is selected, show full content
+    if st.session_state.selected_resource:
+        res = st.session_state.selected_resource
+        st.subheader(res["title"])
+        st.caption(f"📄 {res['category']} • ⏱️ {res['read_time']}")
+        st.markdown(res["content"])
+
+        # Monetization banner
+        st.markdown("""
+        <div style="background-color:#F9F7F4; text-align:center; padding:20px; margin-top:30px; border-radius:8px;">
+            <h3 style="color:#0D1B2A;">Ready to put this into action?</h3>
+            <p style="color:#0D1B2A;">Book a CV Revamp or LinkedIn session with JoyTee Holdings and get personalised, expert help.</p>
+            <a href="https://wa.me/27600000000" target="_blank" style="background-color:#F4A922; color:#0D1B2A; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold;">
+                → Book a ClariFi session from R350
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("↺ Back to Learning Hub"):
+            st.session_state.selected_resource = None
+            st.experimental_rerun()
+
     else:
-        st.write("🔍 No resources found. Try a different search or category.")
+        # Filter resources
+        filtered_resources = []
+        for r in resources:
+            matches_category = active_category == "All" or r["category"] == active_category
+            matches_search = not search_query or search_query.lower() in r["title"].lower() or search_query.lower() in r["description"].lower()
+            if matches_category and matches_search:
+                filtered_resources.append(r)
 
-    if st.button("↺ Reset Learning Hub"):
-        st.experimental_rerun()
+        # Display resource list
+        if filtered_resources:
+            for res in filtered_resources:
+                st.subheader(res["title"])
+                st.write(res["description"])
+                st.caption(f"⏱️ {res['read_time']}")
+                if st.button(f"Read: {res['title']}"):
+                    st.session_state.selected_resource = res
+                    st.experimental_rerun()
+        else:
+            st.write("🔍 No resources found. Try a different search or category.")
+
+        if st.button("↺ Reset Learning Hub"):
+            st.experimental_rerun()
 
 # --- FUN CORNER TAB ---
 with tab4:
