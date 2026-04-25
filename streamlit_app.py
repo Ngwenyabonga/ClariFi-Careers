@@ -144,17 +144,55 @@ In short: your experience may be strong, but the presentation is actively workin
 # --- AI COACH TAB ---
 with tab2:
     st.header("AI Coach")
-    st.write("This section will provide interactive coaching tips, career positioning strategies, and role-play interview practice. For now, it’s a placeholder for testing.")
+    st.write("This section will provide interactive coaching tips, career positioning strategies, and role-play interview practice.")
+
+    # Dummy coaching prompts for testing
+    st.subheader("Practice Prompts")
+    st.write("Try answering these common interview questions:")
+    st.markdown("""
+    - Tell me about yourself.
+    - What is your greatest strength?
+    - What is your biggest weakness?
+    - Why should we hire you?
+    - Where do you see yourself in 5 years?
+    """)
+
+    if st.button("↺ Reset AI Coach"):
+        st.experimental_rerun()
 
 # --- LEARNING HUB TAB ---
 with tab3:
     st.header("Learning Hub")
-    st.write("Here you’ll find guides, templates, and resources to build financial credibility and career clarity. Placeholder content for testing.")
+    st.write("Guides, templates, and resources to build financial credibility and career clarity.")
+
+    # Dummy resources for testing
+    st.subheader("Sample Resources")
+    st.markdown("""
+    - CV Template (ATS-friendly)
+    - Cover Letter Guide
+    - Salary Negotiation Tips
+    - Digital Finance Basics
+    - Compliance Checklist for SMEs
+    """)
+
+    if st.button("↺ Reset Learning Hub"):
+        st.experimental_rerun()
 
 # --- FUN CORNER TAB ---
 with tab4:
     st.header("Fun Corner")
-    st.write("Relax with light content, quizzes, and interactive games. Placeholder content for testing.")
+    st.write("Relax with light content, quizzes, and interactive games.")
+
+    # Dummy fun content for testing
+    st.subheader("Quick Quiz")
+    st.write("What color is JoyTee’s brand palette?")
+    st.radio("Choose one:", ["Blue & Silver", "Deep Navy & Gold", "Red & Black"])
+
+    st.subheader("Career Trivia")
+    st.write("Did you know? Most recruiters spend less than 7 seconds scanning a CV.")
+
+    if st.button("↺ Reset Fun Corner"):
+        st.experimental_rerun()
 
 # --- Footer with WhatsApp icon ---
 st.markdown("""
