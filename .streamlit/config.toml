@@ -1,0 +1,6 @@
+[theme]
+primaryColor="#F4A922"        # warm gold
+backgroundColor="#F9F7F4"     # off-white
+secondaryBackgroundColor="#0D1B2A"  # deep navy
+textColor="#0D1B2A"           # deep navy for text
+font="sans serif"
