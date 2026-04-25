@@ -74,11 +74,25 @@ st.markdown("""
     .footer a:hover {
         color: #F4A922;
     }
+
+    /* Tagline styling */
+    .tagline {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        font-weight: bold;
+        color: #F4A922;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # --- Toggle between Testing Mode and Live Mode ---
 TESTING_MODE = True   # Change to False when you want to use OpenAI again
+
+# --- Tagline ---
+st.markdown('<div class="tagline">Stop applying. Start positioning.</div>', unsafe_allow_html=True)
 
 # --- Tab Navigation ---
 tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
@@ -127,24 +141,26 @@ In short: your experience may be strong, but the presentation is actively workin
         else:
             st.warning("⚠️ Please upload or paste your CV first.")
 
-# --- Other Tabs ---
+# --- AI COACH TAB ---
 with tab2:
     st.header("AI Coach")
-    st.write("Interactive career coach coming soon.")
+    st.write("This section will provide interactive coaching tips, career positioning strategies, and role-play interview practice. For now, it’s a placeholder for testing.")
 
+# --- LEARNING HUB TAB ---
 with tab3:
     st.header("Learning Hub")
-    st.write("Guides and resources here.")
+    st.write("Here you’ll find guides, templates, and resources to build financial credibility and career clarity. Placeholder content for testing.")
 
+# --- FUN CORNER TAB ---
 with tab4:
     st.header("Fun Corner")
-    st.write("Relax with light content.")
+    st.write("Relax with light content, quizzes, and interactive games. Placeholder content for testing.")
 
 # --- Footer with WhatsApp icon ---
 st.markdown("""
 <div class="footer">
     Powered by JoyTee Holdings<br>
     © 2025 JoyTee Holdings | ClariFi Career Corner | POPIA Compliant | info@joyteeholdings.co.za<br>
-    <a href="https://wa.me/27835290121" target="_blank">💬 Chat with us on WhatsApp</a>
+    <a href="https://wa.me/27600000000" target="_blank">💬 Chat with us on WhatsApp</a>
 </div>
 """, unsafe_allow_html=True)
