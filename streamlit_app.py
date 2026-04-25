@@ -1,3 +1,32 @@
+# Custom CSS for branding
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans&display=swap');
+
+    html, body, [class*="css"]  {
+        font-family: 'DM Sans', sans-serif;
+        color: #0D1B2A;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Playfair Display', serif;
+        color: #F4A922;
+    }
+
+    .stButton>button {
+        background-color: #4CAF82;
+        color: #F9F7F4;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .stButton>button:hover {
+        background-color: #0D1B2A;
+        color: #F4A922;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 import streamlit as st
 
 # Toggle between Testing Mode and Live Mode
