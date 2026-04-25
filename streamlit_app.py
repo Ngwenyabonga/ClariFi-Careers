@@ -1,9 +1,8 @@
 import streamlit as st
 import openai
-import os
 
-# Initialize OpenAI client properly
-client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+# Get API key from Streamlit secrets
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Top tab navigation
 tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
@@ -56,7 +55,7 @@ In short: your experience may be strong, but the presentation is actively workin
 """
 
             try:
-                response = client.chat.completions.create(
+                response = openai.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=[{"role": "user", "content": prompt}]
                 )
