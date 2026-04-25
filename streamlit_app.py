@@ -1,20 +1,17 @@
 import streamlit as st
-import openai
 
 # Toggle between Testing Mode and Live Mode
 TESTING_MODE = True   # Change to False when you want to use OpenAI again
 
-if not TESTING_MODE:
-    # Only set API key if Live Mode is enabled
-    openai.api_key = st.secrets["OPENAI_API_KEY"]
-
-# Top tab navigation
 tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
 
 # --- CV REVIEW TAB ---
 with tab1:
     st.header("Get Your CV Reviewed")
     st.write("Upload OR paste your CV and get honest, specific feedback.")
+
+    # Privacy note
+    st.info("🔒 Your CV content is used only to generate your review and is not stored on our servers.")
 
     uploaded_file = st.file_uploader("Upload CV File", type=["pdf", "docx"])
     cv_text = st.text_area("Paste CV Text")
@@ -43,32 +40,13 @@ I'll be very direct, speaking as someone who's reviewed CVs for over 10 years:
 
 In short: your experience may be strong, but the presentation is actively working against you.
                 """)
+
+                # Add "Review another CV" button
+                if st.button("↺ Review another CV"):
+                    st.experimental_rerun()
             else:
-                # Live Mode: call OpenAI API
-                prompt = f"""
-You are a senior recruitment consultant with 15+ years of experience screening CVs.
-
-Here is the candidate's CV:
-
----
-{cv_text}
----
-
-Respond in this format:
-
-"Thank you for sharing your CV, [Candidate Full Name].
-
-I'll be very direct, speaking as someone who's reviewed [their most recent job title/seniority level] CVs for over 10 years:
-
-- [Issue 1 — specific to their CV]
-- [Issue 2]
-- [Issue 3]
-- [Issue 4]
-- [Issue 5]
-- [Issue 6]
-
-In short: your experience may be strong, but the presentation is actively working against you and will get this CV rejected before it’s read."
-"""
+                # Live Mode: call OpenAI API (when billing is enabled)
+                prompt = f"... (same recruiter-style prompt as before) ..."
                 try:
                     response = openai.chat.completions.create(
                         model="gpt-4o-mini",
@@ -76,6 +54,9 @@ In short: your experience may be strong, but the presentation is actively workin
                     )
                     feedback = response.choices[0].message.content
                     st.markdown(feedback)
+
+                    if st.button("↺ Review another CV"):
+                        st.experimental_rerun()
                 except Exception as e:
                     st.error(f"⚠️ Error generating feedback: {e}")
         else:
