@@ -180,43 +180,39 @@ with tab3:
             "read_time": "6 min read",
             "category": "CV Writing",
             "content": """
+### Why Your CV Keeps Getting Ignored (And How to Fix It)
+
 Let's start with a hard truth: most CVs look the same. And in a stack of 200+ applications, "the same" means invisible.
 
-### The Reality of CV Screening
+#### The Reality of CV Screening
 Recruiters in South Africa typically spend 6–10 seconds on an initial CV scan. That's not enough time to read your career history — it's enough time to feel whether your CV is worth reading.
 
 **Here's what gets your CV ignored:**
 
 1. **No Professional Summary (Or a Generic One)**  
-   "Dynamic professional seeking challenging opportunities..." — Stop. Every recruiter has read this sentence 10,000 times.  
    Fix: Write a summary that includes your years of experience, your specialisation, one quantifiable achievement, and the value you bring.
 
 2. **Job Descriptions Instead of Achievements**  
-   If your CV reads like a job specification, it tells the recruiter what you were supposed to do — not what you actually delivered.  
    Fix: For each role, include 3–5 bullet points that show impact. Use the formula: Action + Context + Result.
 
 3. **Poor Visual Hierarchy**  
-   Dense text blocks, inconsistent formatting, tiny fonts, or decorative templates that sacrifice readability.  
-   Fix: Use clear section headings, consistent fonts (DM Sans, Calibri, or Arial), plenty of white space, and a logical top-to-bottom flow.
+   Fix: Use clear section headings, consistent fonts, plenty of white space, and a logical top-to-bottom flow.
 
 4. **Missing Keywords**  
-   Most large companies use Applicant Tracking Systems (ATS). If your CV doesn't contain the right keywords from the job specification, it may never reach human eyes.  
    Fix: Mirror key phrases from the job ad naturally in your CV — especially in your summary, skills, and experience sections.
 
 5. **Too Long or Too Short**  
-   A 1-page CV for a senior professional looks light. A 6-page CV for anyone looks unfocused.  
    Fix: The sweet spot for mid-to-senior professionals is 2–3 pages.
 
-### The Bottom Line
+#### The Bottom Line
 Your CV isn't just a document — it's your first negotiation with a potential employer. If it doesn't sell you in 10 seconds, everything else is irrelevant.
 
 **Next step:** Run your CV through a fresh pair of eyes. Not your mom's eyes — a recruiter's eyes.
             """
-        },
-        # Add other articles here later with same structure
+        }
     ]
 
-    # State to track selected article
+    # Track selected article in session_state
     if "selected_resource" not in st.session_state:
         st.session_state.selected_resource = None
 
@@ -240,7 +236,6 @@ Your CV isn't just a document — it's your first negotiation with a potential e
 
         if st.button("↺ Back to Learning Hub"):
             st.session_state.selected_resource = None
-            st.experimental_rerun()
 
     else:
         # Filter resources
@@ -259,12 +254,11 @@ Your CV isn't just a document — it's your first negotiation with a potential e
                 st.caption(f"⏱️ {res['read_time']}")
                 if st.button(f"Read: {res['title']}"):
                     st.session_state.selected_resource = res
-                    st.experimental_rerun()
         else:
             st.write("🔍 No resources found. Try a different search or category.")
 
         if st.button("↺ Reset Learning Hub"):
-            st.experimental_rerun()
+            st.session_state.selected_resource = None
 
 # --- FUN CORNER TAB ---
 with tab4:
