@@ -473,7 +473,7 @@ with tab5:
             pdf.set_font("Arial", '', 11)
             pdf.multi_cell(0, 8, languages)
 
-            pdf_bytes = pdf.output(dest="S").encode("latin-1")
+            pdf_bytes = pdf.output(dest="S").encode("utf-8")
 
             st.download_button(
                 label="⬇️ Download CV (PDF)",
