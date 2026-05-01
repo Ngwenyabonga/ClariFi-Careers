@@ -370,7 +370,6 @@ from docx import Document
 import io
 import streamlit as st
 
-
 # Function to call Hugging Face API safely
 def generate_revamp(cv_text, job_desc):
     prompt = f"""
@@ -389,7 +388,7 @@ def generate_revamp(cv_text, job_desc):
     payload = {"inputs": prompt}
 
     response = requests.post(
-        "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct",  # ✅ working model
+        "https://api-inference.huggingface.co/models/google/flan-t5-large",  # ✅ supported model
         headers=headers, json=payload
     )
 
