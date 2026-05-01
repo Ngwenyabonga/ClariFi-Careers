@@ -375,21 +375,56 @@ with tab5:
             st.subheader(f"Preview: {template_choice} Template")
             st.write("📄 ATS-friendly CV generated based on your input and job description keywords.")
 
-            # Editable sections
-            st.text_area("Professional Summary", 
-                         "Finance professional with 12 years in corporate reporting... [Edit here]")
-            st.text_area("Key Skills", 
-                         "IFRS, Consolidations, Xero, Compliance, Leadership... [Edit here]")
-            st.text_area("Experience", 
-                         "Led IFRS 16 implementation across 14 subsidiaries... [Edit here]")
+            # Editable sections for Classic ATS
+            summary = st.text_area("Professional Summary (45–50 words)", 
+                "Finance professional with 12 years in corporate reporting and consolidations across JSE-listed entities. "
+                "Led IFRS 16 implementation across 14 subsidiaries, reducing reporting turnaround by 30%.")
+            
+            skills = st.text_area("Skills (6 Core, 4 Technical, 2 Soft)", 
+                "Core: Financial Reporting, Consolidations, Compliance, Leadership, IFRS, Risk Management\n"
+                "Technical: Xero, SAP, Excel, PowerBI\n"
+                "Soft: Communication, Problem-Solving")
+            
+            experience = st.text_area("Professional Experience (5 bullets, 9 words each)", 
+                "- Delivered monthly reporting packs within 5-day turnaround.\n"
+                "- Implemented IFRS 16 across 14 subsidiaries successfully.\n"
+                "- Automated reconciliations, saving 20 staff hours monthly.\n"
+                "- Supported SME clients with compliance training, boosting audit readiness.\n"
+                "- Led finance team of 8, achieving 95% accuracy reporting.")
+            
+            education = st.text_area("Education & Certifications", 
+                "BCom Accounting, University of Johannesburg\nCertified Xero Advisor")
+            
+            achievements = st.text_area("Key Achievements", 
+                "- Reduced reporting turnaround by 30%\n"
+                "- Improved audit readiness by 25%\n"
+                "- Automated reconciliations saving 20 hours monthly")
 
-            # Download once (dummy enforcement)
-            if "downloaded" not in st.session_state:
-                if st.button("⬇️ Download CV (PDF/Word)"):
-                    st.session_state.downloaded = True
-                    st.success("Your CV has been downloaded. Free download limit reached.")
-            else:
-                st.warning("You have already downloaded this CV. Upgrade for unlimited downloads.")
+            # Combine into CV text
+            classic_cv = f"""
+Professional Summary
+{summary}
+
+Skills
+{skills}
+
+Professional Experience
+{experience}
+
+Education & Certifications
+{education}
+
+Key Achievements
+{achievements}
+"""
+
+            # Download button (works properly)
+            st.download_button(
+                label="⬇️ Download CV (PDF/Word)",
+                data=classic_cv,
+                file_name="Classic_ATS_CV.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
 
             # Premium upsell
             st.markdown("""
