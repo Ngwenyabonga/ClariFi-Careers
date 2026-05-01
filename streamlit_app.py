@@ -498,5 +498,3 @@ with tab5:
                 </a>
             </div>
             """, unsafe_allow_html=True)
-        else:
-            st.error("Please upload or paste your CV first.")
