@@ -366,9 +366,6 @@ with tab4:
         st.session_state.clear()
 
 import requests
-from docx import Document
-import io
-import streamlit as st
 
 # Function to call Hugging Face API safely
 def generate_revamp(cv_text, job_desc):
@@ -388,13 +385,12 @@ def generate_revamp(cv_text, job_desc):
     payload = {"inputs": prompt}
 
     response = requests.post(
-        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct",
+        "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct",  # ✅ working model
         headers=headers, json=payload
     )
 
     try:
         data = response.json()
-        # Some models return a list, some return a dict
         if isinstance(data, list) and "generated_text" in data[0]:
             return data[0]["generated_text"]
         elif isinstance(data, dict) and "generated_text" in data:
