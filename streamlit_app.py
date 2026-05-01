@@ -374,78 +374,52 @@ with tab5:
     st.header("ATS CV Builder")
     st.write("Upload or paste your CV, paste the job description, and build a ready-to-apply ATS CV.")
 
-    # Upload or paste CV
     uploaded_cv = st.file_uploader("Upload CV File (PDF/Word)", type=["pdf", "docx"])
     pasted_cv = st.text_area("Or paste your CV text here")
-
-    # Paste job description
     job_desc = st.text_area("Paste job description here")
 
-    # Choose template
     template_choice = st.selectbox("Choose a template:", 
                                    ["Classic ATS", "Modern Professional", "Strategic Pivot"])
 
     if st.button("Generate ATS CV"):
         if pasted_cv or uploaded_cv:
             st.subheader(f"Preview: {template_choice} Template")
-            st.write("📄 ATS-friendly CV generated based on your input and job description keywords.")
 
-            # Editable sections
-            summary = st.text_area("Professional Summary (45–50 words)", 
-                "Finance professional with 12 years in corporate reporting and consolidations across JSE-listed entities. "
-                "Led IFRS 16 implementation across 14 subsidiaries, reducing reporting turnaround by 30%.")
-            
-            skills = st.text_area("Skills (6 Core, 4 Technical, 2 Soft)", 
-                "Core: Financial Reporting, Consolidations, Compliance, Leadership, IFRS, Risk Management\n"
-                "Technical: Xero, SAP, Excel, PowerBI\n"
-                "Soft: Communication, Problem-Solving")
-            
-            experience = st.text_area("Professional Experience (5 bullets, 9 words each)", 
-                "- Delivered monthly reporting packs within 5-day turnaround.\n"
-                "- Implemented IFRS 16 across 14 subsidiaries successfully.\n"
-                "- Automated reconciliations, saving 20 staff hours monthly.\n"
-                "- Supported SME clients with compliance training, boosting audit readiness.\n"
-                "- Led finance team of 8, achieving 95% accuracy reporting.")
-            
-            education = st.text_area("Education & Certifications", 
-                "BCom Accounting, University of Johannesburg\nCertified Xero Advisor")
-            
-            achievements = st.text_area("Key Achievements", 
-                "- Reduced reporting turnaround by 30%\n"
-                "- Improved audit readiness by 25%\n"
-                "- Automated reconciliations saving 20 hours monthly")
-
-            # Combine into CV text
-            cv_text = f"""
-Professional Summary
-{summary}
-
-Skills
-{skills}
-
-Professional Experience
-{experience}
-
-Education & Certifications
-{education}
-
-Key Achievements
-{achievements}
-"""
+            # Editable fields
+            summary = st.text_area("Professional Summary", 
+                "Concise 3–4 sentences summarizing your background, key skills, and value.")
+            core_skills = st.text_area("Core Skills", 
+                "Financial Reporting, Compliance, Leadership, IFRS, Risk Management, Consolidations")
+            technical_skills = st.text_area("Technical Skills", 
+                "Xero, SAP, Excel, PowerBI")
+            certifications = st.text_area("Certifications", 
+                "Certified Xero Advisor – Xero, 2025")
+            experience = st.text_area("Leadership & Professional Experience", 
+                "- Job Title – Company, Location (Year–Year)\n"
+                "- Key responsibility with measurable outcome\n"
+                "- Another achievement with metrics")
+            education = st.text_area("Education", 
+                "BCom Accounting – University of Johannesburg, 2010–2013")
+            languages = st.text_area("Languages", 
+                "English (Fluent), isiZulu (Intermediate)")
 
             # --- Create Word file ---
             doc = Document()
-            doc.add_heading('Classic ATS CV', 0)
+            doc.add_heading('ATS Compliant CV', 0)
             doc.add_heading('Professional Summary', level=1)
             doc.add_paragraph(summary)
-            doc.add_heading('Skills', level=1)
-            doc.add_paragraph(skills)
-            doc.add_heading('Professional Experience', level=1)
+            doc.add_heading('Core Skills', level=1)
+            doc.add_paragraph(core_skills)
+            doc.add_heading('Technical Skills', level=1)
+            doc.add_paragraph(technical_skills)
+            doc.add_heading('Certifications', level=1)
+            doc.add_paragraph(certifications)
+            doc.add_heading('Leadership & Professional Experience', level=1)
             doc.add_paragraph(experience)
-            doc.add_heading('Education & Certifications', level=1)
+            doc.add_heading('Education', level=1)
             doc.add_paragraph(education)
-            doc.add_heading('Key Achievements', level=1)
-            doc.add_paragraph(achievements)
+            doc.add_heading('Languages', level=1)
+            doc.add_paragraph(languages)
 
             word_buffer = io.BytesIO()
             doc.save(word_buffer)
@@ -454,26 +428,59 @@ Key Achievements
             st.download_button(
                 label="⬇️ Download CV (Word)",
                 data=word_buffer,
-                file_name="Classic_ATS_CV.docx",
+                file_name="ATS_CV.docx",
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
 
             # --- Create PDF file ---
             pdf = FPDF()
             pdf.add_page()
-            pdf.set_font("Arial", size=12)
-            pdf.multi_cell(0, 10, cv_text)
+            pdf.set_font("Arial", 'B', 14)
+            pdf.cell(0, 10, "ATS Compliant CV", ln=True, align="C")
 
-            # Output PDF as bytes instead of writing to file
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Professional Summary", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, summary)
+
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Core Skills", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, core_skills)
+
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Technical Skills", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, technical_skills)
+
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Certifications", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, certifications)
+
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Leadership & Professional Experience", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, experience)
+
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Education", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, education)
+
+            pdf.set_font("Arial", 'B', 12)
+            pdf.cell(0, 10, "Languages", ln=True)
+            pdf.set_font("Arial", '', 11)
+            pdf.multi_cell(0, 8, languages)
+
             pdf_bytes = pdf.output(dest="S").encode("latin-1")
 
             st.download_button(
-            label="⬇️ Download CV (PDF)",
-            data=pdf_bytes,
-            file_name="Classic_ATS_CV.pdf",
-            mime="application/pdf"
+                label="⬇️ Download CV (PDF)",
+                data=pdf_bytes,
+                file_name="ATS_CV.pdf",
+                mime="application/pdf"
             )
-
 
             # Premium upsell
             st.markdown("""
