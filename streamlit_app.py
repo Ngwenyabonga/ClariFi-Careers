@@ -143,22 +143,34 @@ In short: your experience may be strong, but the presentation is actively workin
 
 # --- AI COACH TAB ---
 with tab2:
-    st.header("AI Coach")
-    st.write("This section will provide interactive coaching tips, career positioning strategies, and role-play interview practice.")
+    st.header("CareerClariFi Coach")
+    st.write("Ask about your career, CV, LinkedIn, job search strategy, or salary negotiation.")
 
-    # Dummy coaching prompts for testing
-    st.subheader("Practice Prompts")
-    st.write("Try answering these common interview questions:")
-    st.markdown("""
-    - Tell me about yourself.
-    - What is your greatest strength?
-    - What is your biggest weakness?
-    - Why should we hire you?
-    - Where do you see yourself in 5 years?
-    """)
+    # Define common career questions + dummy answers
+    questions = {
+        "Why am I not getting shortlisted despite applying for months?":
+            "Recruiters often filter by keywords and relevance. If your CV doesn’t mirror the job spec, ATS may skip it. Focus on tailoring your CV headline, summary, and skills to each role.",
+        "How do I position myself for a career pivot?":
+            "Highlight transferable skills. Frame your past achievements in terms of impact, not industry jargon. Show how your experience solves problems in the new field.",
+        "Should I include a professional summary on my CV?":
+            "Yes — but keep it sharp. 3–4 lines that state your role, years of experience, one quantifiable achievement, and the value you bring.",
+        "How do I negotiate a higher salary offer?":
+            "Anchor your request in market data. State your value clearly, then ask with confidence. Avoid vague phrases like 'I was hoping for more' — instead say 'Based on my experience and market benchmarks, I believe Rxxx is fair.'",
+        "What should my LinkedIn headline say?":
+            "Your headline should position you, not just list your job title. Example: 'Financial Planner | Helping SMEs build credibility & compliance | Xero Advisor'.",
+        "Am I targeting the right companies and industries?":
+            "Check alignment between your skills and the industry’s growth areas. Use LinkedIn job insights and industry reports to confirm demand before applying."
+    }
+
+    # Display clickable questions
+    selected_question = st.radio("Choose a question:", list(questions.keys()))
+
+    if st.button("Get Answer"):
+        st.subheader("Answer")
+        st.write(questions[selected_question])
 
     if st.button("↺ Reset AI Coach"):
-        st.experimental_rerun()
+        st.experimental_set_query_params()  # clears selection
 
 # --- LEARNING HUB TAB ---
 with tab3:
