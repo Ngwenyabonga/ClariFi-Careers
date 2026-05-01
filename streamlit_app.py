@@ -464,16 +464,16 @@ Key Achievements
             pdf.set_font("Arial", size=12)
             pdf.multi_cell(0, 10, cv_text)
 
-            pdf_buffer = io.BytesIO()
-            pdf.output(pdf_buffer)
-            pdf_buffer.seek(0)
+            # Output PDF as bytes instead of writing to file
+            pdf_bytes = pdf.output(dest="S").encode("latin-1")
 
             st.download_button(
-                label="⬇️ Download CV (PDF)",
-                data=pdf_buffer,
-                file_name="Classic_ATS_CV.pdf",
-                mime="application/pdf"
+            label="⬇️ Download CV (PDF)",
+            data=pdf_bytes,
+            file_name="Classic_ATS_CV.pdf",
+            mime="application/pdf"
             )
+
 
             # Premium upsell
             st.markdown("""
