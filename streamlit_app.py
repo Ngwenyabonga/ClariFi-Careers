@@ -141,6 +141,57 @@ In short: your experience may be strong, but the presentation is actively workin
         else:
             st.warning("⚠️ Please upload or paste your CV first.")
 
+# --- CV BUILDER TAB ---
+with tab5:
+    st.header("ATS CV Builder")
+    st.write("Upload or paste your CV, paste the job description, and build a ready-to-apply ATS CV.")
+
+    # Upload or paste CV
+    uploaded_cv = st.file_uploader("Upload CV File (PDF/Word)", type=["pdf", "docx"])
+    pasted_cv = st.text_area("Or paste your CV text here")
+
+    # Paste job description
+    job_desc = st.text_area("Paste job description here")
+
+    # Choose template
+    template_choice = st.selectbox("Choose a template:", 
+                                   ["Classic ATS", "Modern Professional", "Strategic Pivot"])
+
+    # Generate CV (dummy logic for now)
+    if st.button("Generate ATS CV"):
+        if pasted_cv or uploaded_cv:
+            st.subheader(f"Preview: {template_choice} Template")
+            st.write("📄 ATS-friendly CV generated based on your input and job description keywords.")
+
+            # Editable sections
+            st.text_area("Professional Summary", 
+                         "Finance professional with 12 years in corporate reporting... [Edit here]")
+            st.text_area("Key Skills", 
+                         "IFRS, Consolidations, Xero, Compliance, Leadership... [Edit here]")
+            st.text_area("Experience", 
+                         "Led IFRS 16 implementation across 14 subsidiaries... [Edit here]")
+
+            # Download once (dummy enforcement)
+            if "downloaded" not in st.session_state:
+                if st.button("⬇️ Download CV (PDF/Word)"):
+                    st.session_state.downloaded = True
+                    st.success("Your CV has been downloaded. Free download limit reached.")
+            else:
+                st.warning("You have already downloaded this CV. Upgrade for unlimited downloads.")
+
+            # Premium upsell
+            st.markdown("""
+            <div style="background-color:#F9F7F4; text-align:center; padding:20px; margin-top:30px; border-radius:8px;">
+                <h3 style="color:#0D1B2A;">Want industry-specific positioning?</h3>
+                <p style="color:#0D1B2A;">Our premium Career Branding & Positioning service goes beyond ATS — we research the right fit for your next progression.</p>
+                <a href="https://wa.me/27600000000" target="_blank" style="background-color:#F4A922; color:#0D1B2A; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold;">
+                    → Book Career Branding & Positioning
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.error("Please upload or paste your CV first.")
+
 # --- AI COACH TAB ---
 with tab2:
     st.header("CareerClariFi Coach")
