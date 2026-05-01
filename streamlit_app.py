@@ -1,5 +1,16 @@
 import streamlit as st
 
+# --- Fix text area visibility ---
+st.markdown("""
+<style>
+textarea {
+    color: white !important;
+    background-color: #0D1B2A !important; /* deep navy background */
+    font-family: 'DM Sans', sans-serif;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- Custom CSS for branding ---
 st.markdown("""
     <style>
@@ -353,6 +364,7 @@ with tab4:
 
     if st.button("↺ Reset Fun Corner"):
         st.session_state.clear()
+
 # --- CV BUILDER TAB ---
 with tab5:
     st.header("ATS CV Builder")
@@ -418,12 +430,12 @@ Key Achievements
 {achievements}
 """
 
-            # Download button (works properly)
+            # Download button (use .txt for safe viewing)
             st.download_button(
-                label="⬇️ Download CV (PDF/Word)",
+                label="⬇️ Download CV (Text File)",
                 data=classic_cv,
-                file_name="Classic_ATS_CV.docx",
-                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                file_name="Classic_ATS_CV.txt",
+                mime="text/plain"
             )
 
             # Premium upsell
