@@ -365,9 +365,32 @@ with tab4:
     if st.button("↺ Reset Fun Corner"):
         st.session_state.clear()
 
+import requests
 from docx import Document
-from fpdf import FPDF
 import io
+import streamlit as st
+
+# Function to call Hugging Face API
+def generate_revamp(cv_text, job_desc):
+    prompt = f"""
+    Revamp the CV below to align with the job description:
+    - New 45-50 word professional summary
+    - Extract 6 core skills, 4 technical skills, 2 soft skills
+    - Rewrite experience bullets (9 words each, aligned to JD)
+    - Keep education/certifications intact
+    CV:
+    {cv_text}
+    Job Description:
+    {job_desc}
+    """
+
+    headers = {"Authorization": f"Bearer {st.secrets['huggingface']['api_key']}"}
+    payload = {"inputs": prompt}
+    response = requests.post(
+        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct",
+        headers=headers, json=payload
+    )
+    return response.json()[0]["generated_text"]
 
 # --- CV BUILDER TAB ---
 with tab5:
@@ -385,53 +408,19 @@ with tab5:
         if pasted_cv or uploaded_cv:
             st.subheader(f"Revamped CV: {template_choice} Template")
 
-            # --- Revamp Logic (placeholder AI call) ---
-            # In production, replace with an AI model call that takes pasted_cv + job_desc
-            # For now, simulate with dummy aligned outputs
+            # Get CV text
+            cv_text = pasted_cv if pasted_cv else uploaded_cv.read().decode("utf-8", errors="ignore")
 
-            summary = "Finance professional with 12 years in corporate reporting and consolidations. Expert in IFRS compliance and risk management, delivering 30% faster reporting cycles. Skilled in SAP and Xero, aligning financial strategy to organizational goals."
-            
-            core_skills = "Financial Reporting, IFRS Compliance, Risk Management, Leadership, Consolidations, Strategic Planning"
-            technical_skills = "SAP, Xero, Excel, PowerBI"
-            certifications = "Certified Xero Advisor – Xero, 2025"
-            
-            experience = (
-                "- Delivered IFRS-compliant reports within 5-day turnaround, improving efficiency by 30%.\n"
-                "- Implemented SAP automation, saving 20 staff hours monthly.\n"
-                "- Led finance team of 8, achieving 95% reporting accuracy.\n"
-                "- Supported SMEs with compliance training, boosting audit readiness by 25%.\n"
-                "- Partnered with stakeholders to align reporting with strategic goals."
-            )
-            
-            education = "BCom Accounting – University of Johannesburg, 2010–2013"
-            languages = "English (Fluent), isiZulu (Intermediate)"
+            # Call Hugging Face to generate revamped CV
+            revamped_output = generate_revamp(cv_text, job_desc)
 
-            # Editable fields
-            summary = st.text_area("Professional Summary", summary)
-            core_skills = st.text_area("Core Skills", core_skills)
-            technical_skills = st.text_area("Technical Skills", technical_skills)
-            certifications = st.text_area("Certifications", certifications)
-            experience = st.text_area("Leadership & Professional Experience", experience)
-            education = st.text_area("Education", education)
-            languages = st.text_area("Languages", languages)
+            # Show editable text area with AI output
+            st.text_area("Revamped CV", revamped_output, height=400)
 
             # --- Create Word file ---
             doc = Document()
             doc.add_heading('ATS Compliant CV', 0)
-            doc.add_heading('Professional Summary', level=1)
-            doc.add_paragraph(summary)
-            doc.add_heading('Core Skills', level=1)
-            doc.add_paragraph(core_skills)
-            doc.add_heading('Technical Skills', level=1)
-            doc.add_paragraph(technical_skills)
-            doc.add_heading('Certifications', level=1)
-            doc.add_paragraph(certifications)
-            doc.add_heading('Leadership & Professional Experience', level=1)
-            doc.add_paragraph(experience)
-            doc.add_heading('Education', level=1)
-            doc.add_paragraph(education)
-            doc.add_heading('Languages', level=1)
-            doc.add_paragraph(languages)
+            doc.add_paragraph(revamped_output)
 
             word_buffer = io.BytesIO()
             doc.save(word_buffer)
@@ -444,7 +433,7 @@ with tab5:
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
 
-            # PDF export temporarily disabled until fpdf2 is installed
+            # PDF export disabled until fpdf2 is installed
             st.info("PDF export will be enabled once fpdf2 is installed. For now, use Word download.")
         else:
             st.error("Please upload or paste your CV first.")
