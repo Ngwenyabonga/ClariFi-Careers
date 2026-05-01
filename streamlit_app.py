@@ -432,55 +432,63 @@ with tab5:
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
 
-            # --- Create PDF file ---
-            pdf = FPDF()
-            pdf.add_page()
-            pdf.set_font("Arial", 'B', 14)
-            pdf.cell(0, 10, "ATS Compliant CV", ln=True, align="C")
+          # --- Create PDF file ---
+from fpdf import FPDF
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Professional Summary", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, summary)
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font("Arial", 'B', 14)
+pdf.cell(0, 10, "ATS Compliant CV", ln=True, align="C")
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Core Skills", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, core_skills)
+def safe_text(text):
+    # Convert to latin-1 safely, replacing unsupported characters
+    return text.encode("latin-1", "replace").decode("latin-1")
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Technical Skills", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, technical_skills)
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Professional Summary", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(summary))
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Certifications", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, certifications)
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Core Skills", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(core_skills))
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Leadership & Professional Experience", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, experience)
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Technical Skills", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(technical_skills))
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Education", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, education)
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Certifications", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(certifications))
 
-            pdf.set_font("Arial", 'B', 12)
-            pdf.cell(0, 10, "Languages", ln=True)
-            pdf.set_font("Arial", '', 11)
-            pdf.multi_cell(0, 8, languages)
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Leadership & Professional Experience", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(experience))
 
-            pdf_bytes = pdf.output(dest="S").encode("utf-8")
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Education", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(education))
 
-            st.download_button(
-                label="⬇️ Download CV (PDF)",
-                data=pdf_bytes,
-                file_name="ATS_CV.pdf",
-                mime="application/pdf"
-            )
+pdf.set_font("Arial", 'B', 12)
+pdf.cell(0, 10, "Languages", ln=True)
+pdf.set_font("Arial", '', 11)
+pdf.multi_cell(0, 8, safe_text(languages))
+
+# Output PDF safely
+pdf_bytes = pdf.output(dest="S").encode("latin-1", "replace")
+
+st.download_button(
+    label="⬇️ Download CV (PDF)",
+    data=pdf_bytes,
+    file_name="ATS_CV.pdf",
+    mime="application/pdf"
+)
+
 
             # Premium upsell
             st.markdown("""
