@@ -95,7 +95,7 @@ TESTING_MODE = True   # Change to False when you want to use OpenAI again
 st.markdown('<div class="tagline">Stop applying. Start positioning.</div>', unsafe_allow_html=True)
 
 # --- Tab Navigation ---
-tab1, tab2, tab3, tab4 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["CV Review", "AI Coach", "Learning Hub", "Fun Corner", "CV Builder"])
 
 # --- CV REVIEW TAB ---
 with tab1:
