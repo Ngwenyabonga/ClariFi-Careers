@@ -277,13 +277,30 @@ with tab4:
     st.header("The Funny Corner 😂")
     st.write("Job searching is stressful. Take a break, have a laugh, and remember — you're not alone in this.")
 
-    # Daily Meme placeholder
-    st.subheader("Daily Meme")
-    st.write("📸 [Placeholder for Daily Meme image or joke]")
+    # Daily Meme (rotating jokes)
+    st.subheader("📸 Daily Career Meme ZA")
+    memes = [
+        "‘They said it’s not you, it’s the budget’… then posted the same job two weeks later. The audacity.",
+        "Recruiter: ‘We’re looking for a unicorn.’ Me: ‘I’m just trying to pay rent.’",
+        "Job spec: 3 years experience. Salary: 3 peanuts per month.",
+        "Interview question: ‘Where do you see yourself in 5 years?’ Me: ‘Hopefully not still waiting for feedback.’"
+    ]
+    meme_index = st.number_input("Swipe memes (1–4):", min_value=1, max_value=len(memes), value=1)
+    st.write(memes[meme_index - 1])
 
-    # Office Bingo placeholder
-    st.subheader("Office Bingo")
-    st.write("🎲 [Placeholder for interactive Office Bingo game]")
+    # Office Bingo
+    st.subheader("🎲 Office Bingo")
+    st.write("Tick off if you’ve heard these in the office this week:")
+    bingo_items = [
+        "‘Let’s circle back.’",
+        "‘Can you take ownership of this?’",
+        "‘We’re like a family here.’",
+        "‘We’ll touch base offline.’",
+        "‘This role offers exposure.’"
+    ]
+    selected_bingo = st.multiselect("Choose phrases:", bingo_items)
+    if selected_bingo:
+        st.success(f"You ticked {len(selected_bingo)} office clichés!")
 
     # Footer note inside Funny Corner
     st.markdown("""
@@ -293,4 +310,4 @@ with tab4:
     """, unsafe_allow_html=True)
 
     if st.button("↺ Reset Fun Corner"):
-        st.experimental_rerun()
+        st.session_state.clear()
