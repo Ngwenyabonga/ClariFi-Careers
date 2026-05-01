@@ -366,6 +366,10 @@ with tab4:
         st.session_state.clear()
 
 import requests
+from docx import Document
+import io
+import streamlit as st
+
 
 # Function to call Hugging Face API safely
 def generate_revamp(cv_text, job_desc):
