@@ -370,7 +370,7 @@ from docx import Document
 import io
 import streamlit as st
 
-# Function to call Hugging Face API
+# Function to call Hugging Face API safely
 def generate_revamp(cv_text, job_desc):
     prompt = f"""
     Revamp the CV below to align with the job description:
@@ -386,11 +386,23 @@ def generate_revamp(cv_text, job_desc):
 
     headers = {"Authorization": f"Bearer {st.secrets['huggingface']['api_key']}"}
     payload = {"inputs": prompt}
+
     response = requests.post(
         "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct",
         headers=headers, json=payload
     )
-    return response.json()[0]["generated_text"]
+
+    try:
+        data = response.json()
+        # Some models return a list, some return a dict
+        if isinstance(data, list) and "generated_text" in data[0]:
+            return data[0]["generated_text"]
+        elif isinstance(data, dict) and "generated_text" in data:
+            return data["generated_text"]
+        else:
+            return f"⚠️ Unexpected response format: {data}"
+    except Exception as e:
+        return f"⚠️ Error decoding response: {str(e)}\nRaw response: {response.text}"
 
 # --- CV BUILDER TAB ---
 with tab5:
