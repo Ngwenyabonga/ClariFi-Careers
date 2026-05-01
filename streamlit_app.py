@@ -383,25 +383,37 @@ with tab5:
 
     if st.button("Generate ATS CV"):
         if pasted_cv or uploaded_cv:
-            st.subheader(f"Preview: {template_choice} Template")
+            st.subheader(f"Revamped CV: {template_choice} Template")
+
+            # --- Revamp Logic (placeholder AI call) ---
+            # In production, replace with an AI model call that takes pasted_cv + job_desc
+            # For now, simulate with dummy aligned outputs
+
+            summary = "Finance professional with 12 years in corporate reporting and consolidations. Expert in IFRS compliance and risk management, delivering 30% faster reporting cycles. Skilled in SAP and Xero, aligning financial strategy to organizational goals."
+            
+            core_skills = "Financial Reporting, IFRS Compliance, Risk Management, Leadership, Consolidations, Strategic Planning"
+            technical_skills = "SAP, Xero, Excel, PowerBI"
+            certifications = "Certified Xero Advisor – Xero, 2025"
+            
+            experience = (
+                "- Delivered IFRS-compliant reports within 5-day turnaround, improving efficiency by 30%.\n"
+                "- Implemented SAP automation, saving 20 staff hours monthly.\n"
+                "- Led finance team of 8, achieving 95% reporting accuracy.\n"
+                "- Supported SMEs with compliance training, boosting audit readiness by 25%.\n"
+                "- Partnered with stakeholders to align reporting with strategic goals."
+            )
+            
+            education = "BCom Accounting – University of Johannesburg, 2010–2013"
+            languages = "English (Fluent), isiZulu (Intermediate)"
 
             # Editable fields
-            summary = st.text_area("Professional Summary", 
-                "Concise 3–4 sentences summarizing your background, key skills, and value.")
-            core_skills = st.text_area("Core Skills", 
-                "Financial Reporting, Compliance, Leadership, IFRS, Risk Management, Consolidations")
-            technical_skills = st.text_area("Technical Skills", 
-                "Xero, SAP, Excel, PowerBI")
-            certifications = st.text_area("Certifications", 
-                "Certified Xero Advisor – Xero, 2025")
-            experience = st.text_area("Leadership & Professional Experience", 
-                "- Job Title – Company, Location (Year–Year)\n"
-                "- Key responsibility with measurable outcome\n"
-                "- Another achievement with metrics")
-            education = st.text_area("Education", 
-                "BCom Accounting – University of Johannesburg, 2010–2013")
-            languages = st.text_area("Languages", 
-                "English (Fluent), isiZulu (Intermediate)")
+            summary = st.text_area("Professional Summary", summary)
+            core_skills = st.text_area("Core Skills", core_skills)
+            technical_skills = st.text_area("Technical Skills", technical_skills)
+            certifications = st.text_area("Certifications", certifications)
+            experience = st.text_area("Leadership & Professional Experience", experience)
+            education = st.text_area("Education", education)
+            languages = st.text_area("Languages", languages)
 
             # --- Create Word file ---
             doc = Document()
@@ -432,6 +444,8 @@ with tab5:
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
 
+            # PDF export temporarily disabled until fpdf2 is installed
+            st.info("PDF export will be enabled once fpdf2 is installed. For now, use Word download.")
         else:
             st.error("Please upload or paste your CV first.")
 
