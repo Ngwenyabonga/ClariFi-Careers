@@ -277,30 +277,72 @@ with tab4:
     st.header("The Funny Corner 😂")
     st.write("Job searching is stressful. Take a break, have a laugh, and remember — you're not alone in this.")
 
-    # Daily Meme (rotating jokes)
-    st.subheader("📸 Daily Career Meme ZA")
+    # Daily Memes (12+ jokes)
+    st.subheader("📸 Daily Career Memes ZA")
     memes = [
-        "‘They said it’s not you, it’s the budget’… then posted the same job two weeks later. The audacity.",
+        "‘They said it’s not you, it’s the budget’… then posted the same job two weeks later.",
         "Recruiter: ‘We’re looking for a unicorn.’ Me: ‘I’m just trying to pay rent.’",
         "Job spec: 3 years experience. Salary: 3 peanuts per month.",
-        "Interview question: ‘Where do you see yourself in 5 years?’ Me: ‘Hopefully not still waiting for feedback.’"
+        "Interview: ‘Where do you see yourself in 5 years?’ Me: ‘Hopefully not still waiting for feedback.’",
+        "LinkedIn: ‘Open to work.’ Recruiter: ‘Open to exploitation.’",
+        "Boss: ‘We’re a family here.’ Translation: ‘We don’t pay overtime.’",
+        "Job ad: ‘Fast‑paced environment.’ Translation: ‘You’ll burn out in 3 months.’",
+        "Recruiter ghosted me. I guess Casper works in HR now.",
+        "‘We’ll keep your CV on file.’ That file is called the recycle bin.",
+        "‘We want someone with 10 years experience in a tool released last year.’",
+        "‘Culture fit’ = we want someone who laughs at the boss’s jokes.",
+        "‘Exposure instead of pay.’ Sorry, exposure doesn’t cover rent.",
+        "‘We’re looking for a rockstar.’ Translation: ‘We want you to work nights for free.’",
+        "‘We’ll get back to you soon.’ Soon = never.",
+        "‘Dynamic environment.’ Translation: ‘We have no processes.’",
+        "‘We value work‑life balance.’ Translation: ‘We’ll email you at 11pm.’",
+        "‘We’re agile.’ Translation: ‘We change our minds every week.’",
+        "‘We’re hiring due to growth.’ Translation: ‘Everyone quit.’",
+        "‘We’re looking for self‑starters.’ Translation: ‘We won’t train you.’",
+        "‘We’re like a family.’ Translation: ‘We’ll guilt trip you into staying late.’"
     ]
-    meme_index = st.number_input("Swipe memes (1–4):", min_value=1, max_value=len(memes), value=1)
+    meme_index = st.number_input("Swipe memes (1–20):", min_value=1, max_value=len(memes), value=1)
     st.write(memes[meme_index - 1])
 
-    # Office Bingo
-    st.subheader("🎲 Office Bingo")
-    st.write("Tick off if you’ve heard these in the office this week:")
-    bingo_items = [
-        "‘Let’s circle back.’",
-        "‘Can you take ownership of this?’",
-        "‘We’re like a family here.’",
-        "‘We’ll touch base offline.’",
-        "‘This role offers exposure.’"
-    ]
-    selected_bingo = st.multiselect("Choose phrases:", bingo_items)
-    if selected_bingo:
-        st.success(f"You ticked {len(selected_bingo)} office clichés!")
+    # Office Trivia / Quiz (6 hilarious questions)
+    st.subheader("🎲 Office Trivia")
+    trivia_questions = {
+        "What does ‘fast‑paced environment’ really mean?": [
+            "You’ll burn out in 3 months.",
+            "You’ll be running to HR daily.",
+            "It’s code for chaos."
+        ],
+        "What does ‘culture fit’ usually mean?": [
+            "Laugh at the boss’s jokes.",
+            "Pretend to enjoy team‑building karaoke.",
+            "Agree that free coffee is a benefit."
+        ],
+        "What does ‘competitive salary’ mean?": [
+            "They compete to see who gets paid less.",
+            "It’s a mystery box.",
+            "It’s below market, but they’ll smile."
+        ],
+        "What does ‘great exposure’ mean?": [
+            "You’ll be exposed to poverty.",
+            "You’ll be exposed to burnout.",
+            "You’ll be exposed to unpaid overtime."
+        ],
+        "What does ‘dynamic environment’ mean?": [
+            "Processes change every week.",
+            "Your boss changes their mind hourly.",
+            "You’ll be dynamically stressed."
+        ],
+        "What does ‘family culture’ mean?": [
+            "They’ll guilt trip you into staying late.",
+            "They’ll forget your birthday but remember deadlines.",
+            "They’ll call you ‘family’ until retrenchment."
+        ]
+    }
+
+    selected_question = st.selectbox("Pick a trivia question:", list(trivia_questions.keys()))
+    selected_answer = st.radio("Choose your answer:", trivia_questions[selected_question])
+    if st.button("Reveal Truth"):
+        st.success(f"😂 Correct! {selected_answer}")
 
     # Footer note inside Funny Corner
     st.markdown("""
