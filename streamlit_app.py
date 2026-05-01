@@ -365,6 +365,10 @@ with tab4:
     if st.button("↺ Reset Fun Corner"):
         st.session_state.clear()
 
+from docx import Document
+from fpdf import FPDF
+import io
+
 # --- CV BUILDER TAB ---
 with tab5:
     st.header("ATS CV Builder")
@@ -381,13 +385,12 @@ with tab5:
     template_choice = st.selectbox("Choose a template:", 
                                    ["Classic ATS", "Modern Professional", "Strategic Pivot"])
 
-    # Generate CV (dummy logic for now)
     if st.button("Generate ATS CV"):
         if pasted_cv or uploaded_cv:
             st.subheader(f"Preview: {template_choice} Template")
             st.write("📄 ATS-friendly CV generated based on your input and job description keywords.")
 
-            # Editable sections for Classic ATS
+            # Editable sections
             summary = st.text_area("Professional Summary (45–50 words)", 
                 "Finance professional with 12 years in corporate reporting and consolidations across JSE-listed entities. "
                 "Led IFRS 16 implementation across 14 subsidiaries, reducing reporting turnaround by 30%.")
@@ -413,7 +416,7 @@ with tab5:
                 "- Automated reconciliations saving 20 hours monthly")
 
             # Combine into CV text
-            classic_cv = f"""
+            cv_text = f"""
 Professional Summary
 {summary}
 
@@ -430,12 +433,46 @@ Key Achievements
 {achievements}
 """
 
-            # Download button (use .txt for safe viewing)
+            # --- Create Word file ---
+            doc = Document()
+            doc.add_heading('Classic ATS CV', 0)
+            doc.add_heading('Professional Summary', level=1)
+            doc.add_paragraph(summary)
+            doc.add_heading('Skills', level=1)
+            doc.add_paragraph(skills)
+            doc.add_heading('Professional Experience', level=1)
+            doc.add_paragraph(experience)
+            doc.add_heading('Education & Certifications', level=1)
+            doc.add_paragraph(education)
+            doc.add_heading('Key Achievements', level=1)
+            doc.add_paragraph(achievements)
+
+            word_buffer = io.BytesIO()
+            doc.save(word_buffer)
+            word_buffer.seek(0)
+
             st.download_button(
-                label="⬇️ Download CV (Text File)",
-                data=classic_cv,
-                file_name="Classic_ATS_CV.txt",
-                mime="text/plain"
+                label="⬇️ Download CV (Word)",
+                data=word_buffer,
+                file_name="Classic_ATS_CV.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+
+            # --- Create PDF file ---
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
+            pdf.multi_cell(0, 10, cv_text)
+
+            pdf_buffer = io.BytesIO()
+            pdf.output(pdf_buffer)
+            pdf_buffer.seek(0)
+
+            st.download_button(
+                label="⬇️ Download CV (PDF)",
+                data=pdf_buffer,
+                file_name="Classic_ATS_CV.pdf",
+                mime="application/pdf"
             )
 
             # Premium upsell
