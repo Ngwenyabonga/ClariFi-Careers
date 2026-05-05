@@ -374,9 +374,11 @@ import streamlit as st
 co = cohere.Client(st.secrets["cohere"]["api_key"])
 
 # Function to call Cohere API
-def generate_revamp(cv_text, job_desc):
+def generate_revamp(cv_text, job_desc, cv_type):
     prompt = f"""
-    You are a professional CV writer. Revamp the following CV so it aligns with the job description:
+    You are a professional CV writer. Revamp the following CV so it aligns with the job description.
+    CV Type: {cv_type}
+    Instructions:
     - Write a new 45-50 word professional summary.
     - Extract 6 core skills, 4 technical skills, and 2 soft skills from the job description and match them to the CV.
     - Rewrite each professional experience bullet (max 9 words each) to align with the job description.
@@ -410,19 +412,23 @@ with tab5:
     # Paste job description
     job_desc = st.text_area("Paste job description here")
 
+    # Dropdown for CV type
+    cv_type = st.selectbox("Select CV Type:", 
+                           ["General ATS", "Finance Professional", "Procurement Specialist", "Strategic Pivot"])
+
     # Template choice
     template_choice = st.selectbox("Choose a template:", 
                                    ["Classic ATS", "Modern Professional", "Strategic Pivot"])
 
     if st.button("Generate ATS CV"):
         if pasted_cv or uploaded_cv:
-            st.subheader(f"Revamped CV: {template_choice} Template")
+            st.subheader(f"Revamped CV: {template_choice} Template ({cv_type})")
 
             # Get CV text
             cv_text = pasted_cv if pasted_cv else uploaded_cv.read().decode("utf-8", errors="ignore")
 
             # Call Cohere to generate revamped CV
-            revamped_output = generate_revamp(cv_text, job_desc)
+            revamped_output = generate_revamp(cv_text, job_desc, cv_type)
 
             # Show editable text area with AI output
             st.text_area("Revamped CV", revamped_output, height=400)
