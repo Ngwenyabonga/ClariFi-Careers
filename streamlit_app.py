@@ -403,10 +403,14 @@ with tab5:
     st.header("ATS CV Builder")
     st.write("Upload or paste your CV, paste the job description, and build a ready-to-apply ATS CV.")
 
+    # Upload or paste CV
     uploaded_cv = st.file_uploader("Upload CV File (PDF/Word)", type=["pdf", "docx"])
     pasted_cv = st.text_area("Or paste your CV text here")
+
+    # Paste job description
     job_desc = st.text_area("Paste job description here")
 
+    # Template choice
     template_choice = st.selectbox("Choose a template:", 
                                    ["Classic ATS", "Modern Professional", "Strategic Pivot"])
 
