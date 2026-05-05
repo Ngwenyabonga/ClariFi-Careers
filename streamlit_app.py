@@ -419,16 +419,12 @@ with tab5:
         if pasted_cv or uploaded_cv:
             st.subheader(f"Revamped CV: {template_choice} Template")
 
-            # Get CV text
             cv_text = pasted_cv if pasted_cv else uploaded_cv.read().decode("utf-8", errors="ignore")
 
-            # Call Hugging Face to generate revamped CV
             revamped_output = generate_revamp(cv_text, job_desc)
 
-            # Show editable text area with AI output
             st.text_area("Revamped CV", revamped_output, height=400)
 
-            # --- Create Word file ---
             doc = Document()
             doc.add_heading('ATS Compliant CV', 0)
             doc.add_paragraph(revamped_output)
@@ -444,10 +440,10 @@ with tab5:
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
 
-            # PDF export disabled until fpdf2 is installed
             st.info("PDF export will be enabled once fpdf2 is installed. For now, use Word download.")
         else:
             st.error("Please upload or paste your CV first.")
+
             
             # Premium upsell
             st.markdown("""
