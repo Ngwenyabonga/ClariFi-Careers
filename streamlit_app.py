@@ -448,7 +448,7 @@ with tab5:
             st.info("PDF export will be enabled once fpdf2 is installed. For now, use Word download.")
         else:
             st.error("Please upload or paste your CV first.")
-
+            
             # Premium upsell
             st.markdown("""
             <div style="background-color:#F9F7F4; text-align:center; padding:20px; margin-top:30px; border-radius:8px;">
