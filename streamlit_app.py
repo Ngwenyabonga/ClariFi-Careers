@@ -365,43 +365,38 @@ with tab4:
     if st.button("↺ Reset Fun Corner"):
         st.session_state.clear()
 
-import requests
+import cohere
 from docx import Document
 import io
 import streamlit as st
 
-# Function to call Hugging Face API safely
+# Initialize Cohere client
+co = cohere.Client(st.secrets["cohere"]["api_key"])
+
+# Function to call Cohere API
 def generate_revamp(cv_text, job_desc):
     prompt = f"""
-    Revamp the CV below to align with the job description:
-    - New 45-50 word professional summary
-    - Extract 6 core skills, 4 technical skills, 2 soft skills
-    - Rewrite experience bullets (9 words each, aligned to JD)
-    - Keep education/certifications intact
+    You are a professional CV writer. Revamp the following CV so it aligns with the job description:
+    - Write a new 45-50 word professional summary.
+    - Extract 6 core skills, 4 technical skills, and 2 soft skills from the job description and match them to the CV.
+    - Rewrite each professional experience bullet (max 9 words each) to align with the job description.
+    - Keep education and certifications intact but highlight relevance if mentioned in the job description.
+
     CV:
     {cv_text}
+
     Job Description:
     {job_desc}
     """
 
-    headers = {"Authorization": f"Bearer {st.secrets['huggingface']['api_key']}"}
-    payload = {"inputs": prompt}
-
-    response = requests.post(
-        "https://api-inference.huggingface.co/models/google/flan-t5-large",  # ✅ supported model
-        headers=headers, json=payload
+    response = co.generate(
+        model="command",
+        prompt=prompt,
+        max_tokens=800,
+        temperature=0.7
     )
 
-    try:
-        data = response.json()
-        if isinstance(data, list) and "generated_text" in data[0]:
-            return data[0]["generated_text"]
-        elif isinstance(data, dict) and "generated_text" in data:
-            return data["generated_text"]
-        else:
-            return f"⚠️ Unexpected response format: {data}"
-    except Exception as e:
-        return f"⚠️ Error decoding response: {str(e)}\nRaw response: {response.text}"
+    return response.generations[0].text.strip()
 
 # --- CV BUILDER TAB ---
 with tab5:
@@ -419,12 +414,16 @@ with tab5:
         if pasted_cv or uploaded_cv:
             st.subheader(f"Revamped CV: {template_choice} Template")
 
+            # Get CV text
             cv_text = pasted_cv if pasted_cv else uploaded_cv.read().decode("utf-8", errors="ignore")
 
+            # Call Cohere to generate revamped CV
             revamped_output = generate_revamp(cv_text, job_desc)
 
+            # Show editable text area with AI output
             st.text_area("Revamped CV", revamped_output, height=400)
 
+            # --- Create Word file ---
             doc = Document()
             doc.add_heading('ATS Compliant CV', 0)
             doc.add_paragraph(revamped_output)
@@ -440,10 +439,9 @@ with tab5:
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
 
-            st.info("PDF export will be enabled once fpdf2 is installed. For now, use Word download.")
+            st.info("Live Mode: CV is generated using Cohere AI.")
         else:
             st.error("Please upload or paste your CV first.")
-
             
             # Premium upsell
             st.markdown("""
