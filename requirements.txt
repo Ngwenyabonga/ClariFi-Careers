@@ -3,3 +3,4 @@ streamlit
 python-docx
 fpdf2
 requests
+cohere
